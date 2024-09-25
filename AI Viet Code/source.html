@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Viết Code</title>
+</head>
+<body>
+    <h1>AI Viết Code</h1>
+    <textarea id="prompt" rows="4" cols="50" placeholder="Nhập yêu cầu của bạn..."></textarea><br>
+    <button id="generate">Tạo Code</button>
+    <h2>Kết quả:</h2>
+    <pre id="output"></pre>
+
+    <script>
+        document.getElementById('generate').addEventListener('click', async () => {
+            const prompt = document.getElementById('prompt').value;
+            const outputElement = document.getElementById('output');
+
+            // Thay thế 'YOUR_API_KEY' bằng API key của bạn
+            const apiKey = 'YOUR_API_KEY';
+
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: "gpt-3.5-turbo", // Hoặc model bạn muốn sử dụng
+                    messages: [{ role: "user", content: prompt }],
+                })
+            });
+
+            const data = await response.json();
+            outputElement.textContent = data.choices[0].message.content;
+        });
+    </script>
+</body>
+</html>
+import OpenAI from "openai";
+const openai = new OpenAI();
+const completion = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages: [
+        {"role": "user", "content": "write a haiku about ai"}
+    ]
+});
